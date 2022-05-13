@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TourRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TourRepository::class)]
@@ -27,6 +29,17 @@ class Tour
 
     #[ORM\Column(type: 'date')]
     private $stopDate;
+
+    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'tours')]
+    private $company;
+
+    #[ORM\ManyToMany(targetEntity: Stop::class, inversedBy: 'tours')]
+    private $stops;
+
+    public function __construct()
+    {
+        $this->stops = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,4 +105,41 @@ class Tour
 
         return $this;
     }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stop>
+     */
+    public function getStops(): Collection
+    {
+        return $this->stops;
+    }
+
+    public function addStop(Stop $stop): self
+    {
+        if (!$this->stops->contains($stop)) {
+            $this->stops[] = $stop;
+        }
+
+        return $this;
+    }
+
+    public function removeStop(Stop $stop): self
+    {
+        $this->stops->removeElement($stop);
+
+        return $this;
+    }
+
 }
