@@ -88,6 +88,8 @@ class Company
         return $this;
     }
 
+    // méthode permettant de renvoyer tous les arrêts
+    //desservis par cette compagnie
     public function getAllStops(): Collection
     {
         $tours = $this->tours;
@@ -103,6 +105,7 @@ class Company
         return $array;
     }
 
+    // tour ayant la plus grande capacité
     public function getBiggestTour(): ?Tour
     {
         $tours = $this->tours;

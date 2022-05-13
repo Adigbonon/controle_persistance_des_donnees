@@ -86,6 +86,8 @@ class Stop
         return $this;
     }
 
+    // méthode permettant de connaitre toutes les
+    //compagnies qui desservent cet arrêt
     public function getAllCompanies(): Collection
     {
         $tours = $this->tours;
